@@ -16,7 +16,7 @@
  
   - name: Set Homebrew environment variables
     blockinfile:
-      path: /Users/tradmin/bash_profile
+      path: /Users/tradmin/.bash_profile
       block: |
           # Homebrew 
           export PATH="/usr/local/Homebrew/bin:$PATH"
