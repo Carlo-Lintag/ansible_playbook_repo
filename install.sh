@@ -220,7 +220,7 @@ have_sudo_access() {
     else
       "${SUDO[@]}" -v && "${SUDO[@]}" -l mkdir &>/dev/null
     fi
-    HAVE_SUDO_ACCESS=0
+    HAVE_SUDO_ACCESS="$?"
   fi
 
   if [[ -n "${HOMEBREW_ON_MACOS-}" ]] && [[ "${HAVE_SUDO_ACCESS}" -ne 0 ]]
@@ -270,17 +270,17 @@ ring_bell() {
   fi
 }
 
-wait_for_user() {
-  local c
-  echo
-  echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} to continue or any other key to abort:"
-  getc c
-  # we test for \r and \n because some stuff does \r instead
-  if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
-  then
-    exit 1
-  fi
-}
+# wait_for_user() {
+#   local c
+#   echo
+#   echo "Press ${tty_bold}RETURN${tty_reset}/${tty_bold}ENTER${tty_reset} to continue or any other key to abort:"
+#   getc c
+#   # we test for \r and \n because some stuff does \r instead
+#   if ! [[ "${c}" == $'\r' || "${c}" == $'\n' ]]
+#   then
+#     exit 1
+#   fi
+# }
 
 major_minor() {
   echo "${1%%.*}.$(
@@ -714,7 +714,7 @@ fi
 if [[ -z "${NONINTERACTIVE-}" ]]
 then
   ring_bell
-  wait_for_user
+  # wait_for_user
 fi
 
 if [[ -d "${HOMEBREW_PREFIX}" ]]
