@@ -1,0 +1,25 @@
+---
+- name: Install Homebrew on 10.0.16.51 using git clone
+  hosts: 10.0.16.51
+  become: yes
+  
+  tasks:
+  - name: Clone Homebrew git repository
+    git:
+      repo: https://github.com/Homebrew/brew.git
+      dest: /usr/local/Homebrew
+      update: yes
+      
+  - name: Set Homebrew environment variables
+    blockinfile:
+      path: /home/tradmin/.bashrc
+      block: |
+        # Homebrew
+        export PATH="/usr/local/Homebrew/bin:$PATH"
+---
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: install homebrew package

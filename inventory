@@ -1,1 +1,13 @@
 tradmin@10.0.16.51
+
+
+[windows]
+windows10 ansible_host=10.0.16.191
+
+[windows:vars]
+ansible_user=TRAdmin
+ansible_password=1234
+ansible_port=5985
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore

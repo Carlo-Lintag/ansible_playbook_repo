@@ -1,32 +1,23 @@
 ---
 
-- name: Install Homebrew using git clone
-  hosts: all
+- name: Install Homebrew on M1 Mac with Zsh shell
+  hosts: localhost
   become: yes
-  gather_facts: yes
-
 
   tasks:
-  - name: Clone Homebrew git repository
-    git:
-      repo: https://github.com/Homebrew/brew.git
-      dest: /usr/local/Homebrew
-      update: yes
+    - name: Install Homebrew
+      shell: |
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> /Users/tradmin/.zprofile
+      args:
+        executable: /bin/zsh
+      environment:
+        PATH: "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
- 
-  - name: Set Homebrew environment variables
-    blockinfile:
-      path: /Users/tradmin/.bash_profile
-      block: |
-          # Homebrew 
-          export PATH="/usr/local/Homebrew/bin:$PATH"
-
-  
-  - name: Install Homebrew packages
-    homebrew:
-      name:
-        - wget
-        - python
-        - ansible
-
+    - name: Update Homebrew and installed packages
+      shell: |
+        /opt/homebrew/bin/brew update
+        /opt/homebrew/bin/brew upgrade
+      args:
+        executable: /bin/zsh
 
